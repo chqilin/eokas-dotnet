@@ -17,7 +17,7 @@
 #include "coreclr_delegates.h"
 #include "hostfxr.h"
 
-#ifdef WINDOWS
+#ifdef _OS_WINDOWS
 #include <Windows.h>
 
 #define STR(s) L ## s
@@ -49,7 +49,7 @@ namespace
     load_assembly_and_get_function_pointer_fn get_dotnet_load_assembly(const char_t *assembly);
 }
 
-#if defined(WINDOWS)
+#if defined(_OS_WINDOWS)
 int __cdecl wmain(int argc, wchar_t *argv[])
 #else
 int main(int argc, char *argv[])
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
     // Get the current executable's directory
     // This sample assumes the managed assembly to load and its runtime configuration file are next to the host
     char_t host_path[MAX_PATH];
-#if WINDOWS
+#if _OS_WINDOWS
     auto size = ::GetFullPathNameW(argv[0], sizeof(host_path) / sizeof(char_t), host_path, nullptr);
     assert(size != 0);
 #else
@@ -174,7 +174,7 @@ namespace
     void *load_library(const char_t *);
     void *get_export(void *, const char *);
 
-#ifdef WINDOWS
+#ifdef _OS_WINDOWS
     void *load_library(const char_t *path)
     {
         HMODULE h = ::LoadLibraryW(path);
